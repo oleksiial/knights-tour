@@ -3,9 +3,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { next, undo, redo } from '../../redux/actions/core';
+import {
+  next, undo, redo, reset,
+} from '../../redux/actions/core';
 
 import Canvas from '../Canvas';
+import Controls from '../Controls';
+
+import useWindowSize from '../../hooks/useWindowSize';
 
 const propTypes = {
   isRunning: PropTypes.bool.isRequired,
@@ -21,6 +26,7 @@ const propTypes = {
 
   start: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
   undo: PropTypes.func.isRequired,
   redo: PropTypes.func.isRequired,
@@ -34,29 +40,42 @@ const App = ({
   currentOffset,
   start,
   stop,
+  reset,
   next,
   undo,
   redo,
-}) => (
-  <div className="app">
-    <div className="controls">
-      <button type="button" onClick={undo}>
-        undo
-      </button>
-      <button type="button" onClick={redo}>
-        redo
-      </button>
+}) => {
+  const windowSize = useWindowSize();
+  return (
+    <div className="container">
+      <div className="app">
+        <header>
+          <h1>Knight's tour</h1>
+        </header>
+        <div className="field">
+          <Canvas
+            width={width}
+            height={height}
+            history={history.slice(0, history.length - currentOffset)}
+            windowSize={Math.min(480, windowSize)}
+            onClick={next}
+          />
+        </div>
+        <Controls
+          isRunning={isRunning}
+          width={width}
+          height={height}
+          start={start}
+          stop={stop}
+          reset={reset}
+          next={next}
+          undo={undo}
+          redo={redo}
+        />
+      </div>
     </div>
-    <div className="field">
-      <Canvas
-        width={width}
-        height={height}
-        history={history.slice(0, history.length - currentOffset)}
-        onClick={next}
-      />
-    </div>
-  </div>
-);
+  );
+};
 
 App.propTypes = propTypes;
 
@@ -67,6 +86,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   start: () => dispatch({ type: 'RUN' }),
   stop: () => dispatch({ type: 'STOP' }),
+  reset: () => dispatch(reset()),
   next: (i, j) => dispatch(next(i, j)),
   undo: () => dispatch(undo()),
   redo: () => dispatch(redo()),

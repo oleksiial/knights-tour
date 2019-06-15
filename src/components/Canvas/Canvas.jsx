@@ -12,14 +12,15 @@ const propTypes = {
       j: PropTypes.number.isRequired,
     }),
   ).isRequired,
+  windowSize: PropTypes.number.isRequired,
 
   onClick: PropTypes.func.isRequired,
 };
 
 const Canvas = ({
-  width, height, history, onClick,
+  width, height, history, windowSize, onClick,
 }) => {
-  const cellSize = 50;
+  const cellSize = windowSize / width;
   const ref = useRef();
   const clearCanvas = (ctx) => {
     ctx.fillStyle = '#CCC';

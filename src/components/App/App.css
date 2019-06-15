@@ -7,4 +7,21 @@ body {
 .app {
   display: flex;
   flex-direction: column;
+  max-width: 480px;
+  margin: 5px auto;
+}
+
+.app > header {
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .app {
+    margin: auto;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+  }
 }

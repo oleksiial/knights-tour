@@ -1,5 +1,5 @@
 import {
-  SET_WIDTH, SET_HEIGHT, RUN, STOP, UNDO, REDO, NEXT,
+  SET_WIDTH, SET_HEIGHT, RUN, STOP, RESET, UNDO, REDO, NEXT,
 } from '../actions/core';
 
 const initialState = {
@@ -16,6 +16,8 @@ export default function (state = initialState, action) {
       return { ...state, isRunning: true };
     case STOP:
       return { ...state, isRunning: false };
+    case RESET:
+      return initialState;
     case SET_WIDTH:
       return { ...state, width: action.payload };
     case SET_HEIGHT:

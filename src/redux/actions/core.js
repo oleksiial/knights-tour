@@ -2,6 +2,7 @@ export const SET_WIDTH = 'SET_WIDTH';
 export const SET_HEIGHT = 'SET_HEIGHT';
 export const RUN = 'RUN';
 export const STOP = 'STOP';
+export const RESET = 'RESET';
 
 export const UNDO = 'UNDO';
 export const REDO = 'REDO';
@@ -12,6 +13,7 @@ export const setWidth = width => ({ type: SET_WIDTH, payload: width });
 export const setHeight = height => ({ type: SET_HEIGHT, payload: height });
 export const run = () => ({ type: RUN });
 export const stop = () => ({ type: STOP });
+export const reset = () => ({ type: RESET });
 
 export const undo = () => ({ type: UNDO });
 export const redo = () => ({ type: REDO });
