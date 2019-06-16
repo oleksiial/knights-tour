@@ -16,22 +16,23 @@ const propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
 
-  start: PropTypes.func.isRequired,
+  run: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
+  makeNext: PropTypes.func.isRequired,
   undo: PropTypes.func.isRequired,
   redo: PropTypes.func.isRequired,
 };
 
 const Controls = ({
-  isRunning, width, height, start, stop, reset, next, undo, redo,
+  isRunning, width, height, run, stop, reset, next, makeNext, undo, redo,
 }) => (
   <div className="controls">
     <button className="control" type="button" onClick={reset}>
       <FontAwesomeIcon icon={faUndo} />
     </button>
-    <button className="control" type="button" onClick={undo}>
+    <button className="control" type="button" onClick={makeNext}>
       <FontAwesomeIcon icon={faStepForward} />
     </button>
     {isRunning ? (
@@ -39,7 +40,7 @@ const Controls = ({
         <FontAwesomeIcon icon={faStop} />
       </button>
     ) : (
-      <button className="control" type="button" onClick={start}>
+      <button className="control" type="button" onClick={run}>
         <FontAwesomeIcon icon={faPlay} />
       </button>
     )}

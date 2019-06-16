@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import {
-  next, undo, redo, reset,
+  next, undo, redo, reset, makeNext, run, stop,
 } from '../../redux/actions/core';
 
 import Canvas from '../Canvas';
@@ -24,10 +24,11 @@ const propTypes = {
     }),
   ).isRequired,
 
-  start: PropTypes.func.isRequired,
+  run: PropTypes.func.isRequired,
   stop: PropTypes.func.isRequired,
   reset: PropTypes.func.isRequired,
   next: PropTypes.func.isRequired,
+  makeNext: PropTypes.func.isRequired,
   undo: PropTypes.func.isRequired,
   redo: PropTypes.func.isRequired,
 };
@@ -38,10 +39,11 @@ const App = ({
   height,
   history,
   currentOffset,
-  start,
+  run,
   stop,
   reset,
   next,
+  makeNext,
   undo,
   redo,
 }) => {
@@ -69,10 +71,11 @@ const App = ({
           isRunning={isRunning}
           width={width}
           height={height}
-          start={start}
+          run={run}
           stop={stop}
           reset={reset}
           next={next}
+          makeNext={makeNext}
           undo={undo}
           redo={redo}
         />
@@ -88,10 +91,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  start: () => dispatch({ type: 'RUN' }),
-  stop: () => dispatch({ type: 'STOP' }),
+  run: () => dispatch(run()),
+  stop: () => dispatch(stop()),
   reset: () => dispatch(reset()),
   next: (i, j) => dispatch(next(i, j)),
+  makeNext: () => dispatch(makeNext()),
   undo: () => dispatch(undo()),
   redo: () => dispatch(redo()),
 });
