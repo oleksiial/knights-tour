@@ -43,6 +43,10 @@
     "webpack-dev-server": "^3.7.1"
   },
   "devDependencies": {
-    "style-loader": "^0.23.1"
+    "http-server": "^0.11.1",
+    "mini-css-extract-plugin": "^0.7.0",
+    "style-loader": "^0.23.1",
+    "webpack-pwa-manifest": "^4.0.0",
+    "workbox-webpack-plugin": "^4.3.1"
   }
 }

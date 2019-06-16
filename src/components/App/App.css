@@ -4,18 +4,30 @@ body {
   font-family: sans-serif;
 }
 
-.app {
-  display: flex;
-  flex-direction: column;
-  max-width: 480px;
-  margin: 5px auto;
+@media (any-hover: hover) {
+  .app {
+    display: flex;
+    flex-direction: column;
+    max-width: 480px;
+    margin: 5px auto;
+  }
 }
 
-.app > header {
+.app > .header {
   text-align: center;
+  margin: auto 5px;
 }
 
-@media (max-width: 480px) {
+@media (orientation: landscape) and (any-hover: none) {
+  .app {
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    max-width: none;
+  }
+}
+
+@media (orientation: portrait) and (any-hover: none) {
   .app {
     margin: auto;
   }

@@ -46,18 +46,22 @@ const App = ({
   redo,
 }) => {
   const windowSize = useWindowSize();
+  const slicedHistory = history.slice(0, history.length - currentOffset);
+  const squaresLeft = width * height - slicedHistory.length;
+  const hover = window.matchMedia('(any-hover: hover)').matches;
   return (
     <div className="container">
       <div className="app">
-        <header>
-          <h1>Knight's tour</h1>
+        <header className="header">
+          <h1>Knight&apos;s tour</h1>
+          <p>{squaresLeft ? `${squaresLeft} squares left` : 'Well done!'}</p>
         </header>
         <div className="field">
           <Canvas
             width={width}
             height={height}
-            history={history.slice(0, history.length - currentOffset)}
-            windowSize={Math.min(480, windowSize)}
+            history={slicedHistory}
+            windowSize={hover ? Math.min(480, windowSize) : windowSize}
             onClick={next}
           />
         </div>
