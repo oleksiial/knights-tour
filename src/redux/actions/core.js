@@ -10,19 +10,22 @@ export const REDO = 'REDO';
 export const NEXT = 'NEXT';
 
 const getDirections = (i, j) => [
-  [i + 1, j + 2],
-  [i + 1, j - 2],
-  [i - 1, j + 2],
-  [i - 1, j - 2],
-  [i + 2, j + 1],
-  [i + 2, j - 1],
-  [i - 2, j + 1],
-  [i - 2, j - 1],
+  { i: i + 1, j: j + 2 },
+  { i: i + 1, j: j - 2 },
+  { i: i - 1, j: j + 2 },
+  { i: i - 1, j: j - 2 },
+  { i: i + 2, j: j + 1 },
+  { i: i + 2, j: j - 1 },
+  { i: i - 2, j: j + 1 },
+  { i: i - 2, j: j - 1 },
 ];
 
-const insideBoard = (d, width, height) => d[0] >= 0 && d[0] < height && d[1] >= 0 && d[1] < width;
-const passed = (d, history) => history.some(e => e.i === d[0] && e.j === d[1]);
+const insideBoard = (d, width, height) => d.i >= 0 && d.i < height && d.j >= 0 && d.j < width;
+const passed = (d, history) => history.some(e => e.i === d.i && e.j === d.j);
 const nextMoveExists = (currentPos, width, height, history) => {
+  if (!currentPos) {
+    return false;
+  }
   const directions = getDirections(currentPos.i, currentPos.j);
   return directions.some(d => insideBoard(d, width, height) && !passed(d, history));
 };
@@ -41,7 +44,7 @@ export const makeNext = () => (dispatch, getState) => {
     .fill(null)
     .map(() => Array(width).fill(null))
     .map((sub, i) => sub.map((v, j) => {
-      if (passed([i, j], slicedHistory)) {
+      if (passed({ i, j }, slicedHistory)) {
         return 9;
       }
 
@@ -57,7 +60,7 @@ export const makeNext = () => (dispatch, getState) => {
   );
 
   if (directions.length) {
-    const mappedDirections = directions.map(d => ({ i: d[0], j: d[1], value: field[d[0]][d[1]] }));
+    const mappedDirections = directions.map(d => ({ ...d, value: field[d.i][d.j] }));
     mappedDirections.sort((a, b) => a.value - b.value);
     const mins = mappedDirections.filter(d => d.value === mappedDirections[0].value);
     const min = mins[Math.floor(Math.random() * mins.length)];

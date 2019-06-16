@@ -47,6 +47,7 @@ const Canvas = ({
     ctx.fillStyle = 'rgba(255, 255, 50, 0.5)';
     const currentPos = history[history.length - 1];
     if (currentPos) {
+      ctx.fillRect(currentPos.j * cellSize, currentPos.i * cellSize, cellSize, cellSize);
       ctx.drawImage(knight, currentPos.j * cellSize, currentPos.i * cellSize, cellSize, cellSize);
     }
   };

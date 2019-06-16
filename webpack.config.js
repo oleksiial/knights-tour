@@ -7,8 +7,8 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
+  // devtool: 'inline-source-map',
   entry: './src/index.js',
   output: {
     path: path.resolve(process.cwd(), 'dist'),
