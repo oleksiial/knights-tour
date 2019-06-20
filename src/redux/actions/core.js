@@ -108,10 +108,9 @@ export const next = (i, j) => (dispatch, getState) => {
   }
 
   const directions = getDirections(currentPos.i, currentPos.j);
-  const isLegal = directions.some(d => d[0] === i && d[1] === j);
-  const notPassed = slicedHistory.every(e => e.i !== i || e.j !== j);
+  const isLegal = directions.some(d => d.i === i && d.j === j);
 
-  if (isLegal && notPassed) {
+  if (isLegal && !passed({ i, j }, slicedHistory)) {
     dispatch({ type: NEXT, payload: { i, j } });
   }
 };

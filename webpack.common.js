@@ -6,22 +6,24 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const webpack = require('webpack');
 const path = require('path');
 
-module.exports = {
-  mode: 'production',
-  // devtool: 'inline-source-map',
+module.exports = env => ({
   entry: './src/index.js',
   output: {
+    filename: env.production ? '[name].[contenthash].js' : '[name].js',
     path: path.resolve(process.cwd(), 'dist'),
   },
   optimization: {
+    runtimeChunk: 'single',
     usedExports: true,
     splitChunks: {
-      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
     },
-  },
-  devServer: {
-    contentBase: './dist',
-    hot: true,
   },
 
   module: {
@@ -49,7 +51,7 @@ module.exports = {
       favicon: './public/favicon.ico',
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
+      filename: env.production ? '[name].[hash].css' : '[name].css',
       chunkFilename: '[id].css',
     }),
     new WebpackPwaManifest({
@@ -60,7 +62,7 @@ module.exports = {
       icons: [
         {
           src: path.resolve('public/icon.png'),
-          sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
+          sizes: [128, 192, 512], // multiple sizes
         },
       ],
     }),
@@ -71,4 +73,4 @@ module.exports = {
       skipWaiting: true,
     }),
   ],
-};
+});
