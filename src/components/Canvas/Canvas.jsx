@@ -38,9 +38,30 @@ const Canvas = ({
     }
   };
   const markVisitedSquares = (ctx) => {
-    ctx.fillStyle = 'rgba(50, 255, 50, 0.5)';
+    ctx.fillStyle = 'rgba(170, 0, 0, 0.6)';
     history.slice(0, -1).forEach((entry) => {
       ctx.fillRect(entry.j * cellSize, entry.i * cellSize, cellSize, cellSize);
+    });
+  };
+  const markFutureSquares = (ctx) => {
+    ctx.fillStyle = 'rgba(50, 255, 50, 0.6)';
+    const currentPos = history[history.length - 1];
+
+    const getDirections = (i, j) => [
+      { i: i + 1, j: j + 2 },
+      { i: i + 1, j: j - 2 },
+      { i: i - 1, j: j + 2 },
+      { i: i - 1, j: j - 2 },
+      { i: i + 2, j: j + 1 },
+      { i: i + 2, j: j - 1 },
+      { i: i - 2, j: j + 1 },
+      { i: i - 2, j: j - 1 },
+    ];
+
+    getDirections(currentPos.i, currentPos.j).forEach((d) => {
+      if (!history.find(h => h.i === d.i && h.j === d.j)) {
+        ctx.fillRect(d.j * cellSize, d.i * cellSize, cellSize, cellSize);
+      }
     });
   };
   const markCurrentSquare = (ctx) => {
@@ -74,8 +95,11 @@ const Canvas = ({
     colorBoard(ctx);
     if (history.length > 0) {
       drawLines(ctx);
-      markVisitedSquares(ctx);
       markCurrentSquare(ctx);
+      if (history.length !== width * height) {
+        markFutureSquares(ctx);
+      }
+      // markVisitedSquares(ctx);
     }
   });
 
