@@ -43,26 +43,26 @@ const Canvas = ({
       ctx.fillRect(entry.j * cellSize, entry.i * cellSize, cellSize, cellSize);
     });
   };
-  const markFutureSquare = (ctx) => {
+  const markFutureSquares = (ctx) => {
     ctx.fillStyle = 'rgba(50, 255, 50, 0.6)';
     const currentPos = history[history.length - 1];
-    // history.length != 64 - you don't want it here
-    // it's a bad thing
-    if (currentPos && history.length != 64) {
-      // console.log(currentPos);
-      // to filter impossible turns
-      history.map((element) => {
-        
-      });
-      ctx.fillRect((currentPos.j + 1) * cellSize, (currentPos.i - 2) * cellSize, cellSize, cellSize);
-      ctx.fillRect((currentPos.j - 1) * cellSize, (currentPos.i - 2) * cellSize, cellSize, cellSize);
-      ctx.fillRect((currentPos.j + 1) * cellSize, (currentPos.i + 2) * cellSize, cellSize, cellSize);
-      ctx.fillRect((currentPos.j - 1) * cellSize, (currentPos.i + 2) * cellSize, cellSize, cellSize);
-      ctx.fillRect((currentPos.j + 2) * cellSize, (currentPos.i - 1) * cellSize, cellSize, cellSize);
-      ctx.fillRect((currentPos.j - 2) * cellSize, (currentPos.i - 1) * cellSize, cellSize, cellSize);
-      ctx.fillRect((currentPos.j + 2) * cellSize, (currentPos.i + 1) * cellSize, cellSize, cellSize);
-      ctx.fillRect((currentPos.j - 2) * cellSize, (currentPos.i + 1) * cellSize, cellSize, cellSize);
-    }
+
+    const getDirections = (i, j) => [
+      { i: i + 1, j: j + 2 },
+      { i: i + 1, j: j - 2 },
+      { i: i - 1, j: j + 2 },
+      { i: i - 1, j: j - 2 },
+      { i: i + 2, j: j + 1 },
+      { i: i + 2, j: j - 1 },
+      { i: i - 2, j: j + 1 },
+      { i: i - 2, j: j - 1 },
+    ];
+
+    getDirections(currentPos.i, currentPos.j).forEach((d) => {
+      if (!history.find(h => h.i === d.i && h.j === d.j)) {
+        ctx.fillRect(d.j * cellSize, d.i * cellSize, cellSize, cellSize);
+      }
+    });
   };
   const markCurrentSquare = (ctx) => {
     ctx.fillStyle = 'rgba(255, 255, 50, 0.5)';
@@ -96,7 +96,9 @@ const Canvas = ({
     if (history.length > 0) {
       drawLines(ctx);
       markCurrentSquare(ctx);
-      markFutureSquare(ctx);
+      if (history.length !== width * height) {
+        markFutureSquares(ctx);
+      }
       // markVisitedSquares(ctx);
     }
   });
