@@ -61,8 +61,10 @@ const Canvas = ({
     ctx.stroke();
   };
   const handleClick = (e) => {
-    const i = ((e.clientY - ref.current.offsetTop) / cellSize) | 0;
-    const j = ((e.clientX - ref.current.offsetLeft) / cellSize) | 0;
+    // clientX/clientY like screenX/screenY use length from screen
+    // but pageX/pageY use length from the board top
+    const i = ((e.pageY - ref.current.offsetTop) / cellSize) | 0;
+    const j = ((e.pageX - ref.current.offsetLeft) / cellSize) | 0;
     onClick(i, j);
   };
 
