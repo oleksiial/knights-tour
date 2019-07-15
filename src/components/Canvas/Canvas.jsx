@@ -38,10 +38,31 @@ const Canvas = ({
     }
   };
   const markVisitedSquares = (ctx) => {
-    ctx.fillStyle = 'rgba(50, 255, 50, 0.5)';
+    ctx.fillStyle = 'rgba(170, 0, 0, 0.6)';
     history.slice(0, -1).forEach((entry) => {
       ctx.fillRect(entry.j * cellSize, entry.i * cellSize, cellSize, cellSize);
     });
+  };
+  const markFutureSquare = (ctx) => {
+    ctx.fillStyle = 'rgba(50, 255, 50, 0.6)';
+    const currentPos = history[history.length - 1];
+    // history.length != 64 - you don't want it here
+    // it's a bad thing
+    if (currentPos && history.length != 64) {
+      // console.log(currentPos);
+      // to filter impossible turns
+      history.map((element) => {
+        
+      });
+      ctx.fillRect((currentPos.j + 1) * cellSize, (currentPos.i - 2) * cellSize, cellSize, cellSize);
+      ctx.fillRect((currentPos.j - 1) * cellSize, (currentPos.i - 2) * cellSize, cellSize, cellSize);
+      ctx.fillRect((currentPos.j + 1) * cellSize, (currentPos.i + 2) * cellSize, cellSize, cellSize);
+      ctx.fillRect((currentPos.j - 1) * cellSize, (currentPos.i + 2) * cellSize, cellSize, cellSize);
+      ctx.fillRect((currentPos.j + 2) * cellSize, (currentPos.i - 1) * cellSize, cellSize, cellSize);
+      ctx.fillRect((currentPos.j - 2) * cellSize, (currentPos.i - 1) * cellSize, cellSize, cellSize);
+      ctx.fillRect((currentPos.j + 2) * cellSize, (currentPos.i + 1) * cellSize, cellSize, cellSize);
+      ctx.fillRect((currentPos.j - 2) * cellSize, (currentPos.i + 1) * cellSize, cellSize, cellSize);
+    }
   };
   const markCurrentSquare = (ctx) => {
     ctx.fillStyle = 'rgba(255, 255, 50, 0.5)';
@@ -74,8 +95,9 @@ const Canvas = ({
     colorBoard(ctx);
     if (history.length > 0) {
       drawLines(ctx);
-      markVisitedSquares(ctx);
       markCurrentSquare(ctx);
+      markFutureSquare(ctx);
+      // markVisitedSquares(ctx);
     }
   });
 
